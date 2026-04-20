@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -90,7 +91,7 @@ fun InfoRow(label: String, value: String) {
             .padding(horizontal = 24.dp, vertical = 4.dp)
     ) {
         Text(
-            text = "$label: ",
+            text = stringResource(R.string.info_label, label),
             modifier = Modifier.weight(1f),
             textAlign = TextAlign.End,
             fontStyle = FontStyle.Italic,
@@ -109,10 +110,12 @@ fun InfoRow(label: String, value: String) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactDetails(contact: Contact) {
-    val fullName = buildString {
-        append(contact.name)
-        if (contact.surname != null) append(" ${contact.surname}")
-        append("\n${contact.familyName}")
+    val fullName = remember(contact) {
+        buildString {
+            append(contact.name)
+            if (contact.surname != null) append(" ${contact.surname}")
+            append("\n${contact.familyName}")
+        }
     }
 
     Scaffold(
